@@ -65,7 +65,7 @@ def main():
             break
 
         # wait for the .go file to show up
-        while not exists("stodWithoutA.go"):
+        while not exists("stodWithoutD.go"):
             pass
 
         # start timer
@@ -95,7 +95,7 @@ def main():
                 
                 # determine the order
                 if move_count == 1:
-                    if teamname == "stodWithoutA": my_order = PlayerOrder.FIRST
+                    if teamname == "stodWithoutD": my_order = PlayerOrder.FIRST
                     else: my_order = PlayerOrder.SECOND
 
                 # append move to corresponding player array
@@ -183,7 +183,7 @@ def main():
         
         # write the move to the move_file
         myMove = global_to_local(myMove)
-        myName = "stodWithoutA"
+        myName = "stodWithoutD"
         final_move = myName + " " + str(myMove[0]) + " " + str(myMove[1])
         move_file = open("move_file","w")
         move_file.write(final_move)
