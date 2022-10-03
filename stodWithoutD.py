@@ -43,7 +43,7 @@ def main():
     myMove = 0
     my_order = PlayerOrder.UNDECIDE 
     my_symbol = ""
-    DEPTH = 6
+    DEPTH = 5
     isRead = False
     roundCounter = 0
 
@@ -314,16 +314,16 @@ def evaluateUtilityScorePerBoard(board, symbol, win_condition):
         if current == three:
             score += 100
         elif current == two:
-            score += 10
+            score += 50
         elif current == one:
-            score += 1
+            score += 3
         elif current == three_opponent:
             score -= 100
             return score
         elif current == two_opponent:
-            score -= 10
+            score -= 50
         elif current == one_opponent:
-            score -= 1
+            score -= 3
 
     return score
 
