@@ -1,5 +1,7 @@
+from ast import Try
 from cmath import inf
 from enum import Enum
+from multiprocessing.connection import wait
 import os
 from os.path import exists
 from collections import Counter
@@ -38,10 +40,12 @@ def main():
     # vector array for both players
     firstPlayerMoves = []
     secondPlayerMoves = []
+    myMove = 0
     my_order = PlayerOrder.UNDECIDE 
     my_symbol = ""
     DEPTH = 5
     isRead = False
+    roundCounter = 0
 
     # initialize the state, global_board and the win_condition
     state = "*" * 81
@@ -66,6 +70,10 @@ def main():
 
         # start timer
         start_time = time()
+        
+        # keep track of rounds
+        roundCounter+=1
+        print("----------------Round " + str(roundCounter) + " ----------------")
         
         # reading the first four move (but just for once)
         if not isRead: 
@@ -117,7 +125,15 @@ def main():
             # after receiving the signal
             # read, write, close
             move_file = open("move_file","r")
-            opponentMove = move_file.readlines()[-1] # get the last move_info my opponent made
+            
+            lastLine = ""
+            print("------------------reading---------------")
+            for line in move_file:
+                print(line)
+                lastLine = line
+            print("------------------reading done---------------")
+            
+            opponentMove = lastLine # get the last move_info my opponent made
             move_file.close()
             opponentMove = extractMoveInfo(opponentMove)[1] # get the last move my opponent made
             opponentMove = local_to_global(opponentMove) # convert the local board position to global_board position
@@ -132,9 +148,7 @@ def main():
             state = add_move(state, opponentMove, opponent(my_symbol))
             global_board = update_global_board(state, win_condition)
         
-       
         
-        myMove = 0
         if my_order == PlayerOrder.FIRST:
             last_move = global_to_local(secondPlayerMoves[-1])
             print("My moves - X")
@@ -157,7 +171,6 @@ def main():
         # update state and global_board
         print("My choice:")
         print(myMove[1])
-        print("------------End of turn--------------")
         myMove = local_to_global(myMove[1])
         state = add_move(state, myMove, my_symbol)
         global_board = update_global_board(state, win_condition)
@@ -172,10 +185,10 @@ def main():
         myMove = global_to_local(myMove)
         myName = "stodWithoutA"
         final_move = myName + " " + str(myMove[0]) + " " + str(myMove[1])
-        move_file = open("move_file","r+")
-        move_file.read()
-        move_file.write(final_move + "\n")
+        move_file = open("move_file","w")
+        move_file.write(final_move)
         move_file.close()
+        sleep(1)
 
     # ends program when end_game is found
     print("File 'end_game' is found! Game is over!")
