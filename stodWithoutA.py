@@ -223,7 +223,7 @@ def minimax(state, last_move, depth, start_time, my_symbol, global_board, win_co
     return optimal_move[1] # return the optimal move [state, move]
 
 def max_turn(state, last_move, my_symbol, depth, start_time, alpha, beta, global_board, win_condition):
-    if depth <= 0 or check_board_winner(global_board, win_condition) != "*": #or time() - start_time >= 9.5:
+    if depth <= 0 or check_board_winner(global_board, win_condition) != "*" or time() - start_time >= 9.5:
         # print("MAX_score:")
         # print(evaluateTotalScore(state, my_symbol, global_board ,win_condition))
         return evaluateTotalScore(state, my_symbol, global_board ,win_condition)
@@ -237,7 +237,7 @@ def max_turn(state, last_move, my_symbol, depth, start_time, alpha, beta, global
     return alpha
 
 def min_turn(state, last_move, my_symbol, depth, start_time, alpha, beta, global_board, win_condition):
-    if depth <= 0 or check_board_winner(global_board, win_condition) != "*": #or time() - start_time >= 9.5:
+    if depth <= 0 or check_board_winner(global_board, win_condition) != "*" or time() - start_time >= 9.5:
         # print("MIN_score:")
         # print(evaluateTotalScore(state, opponent(my_symbol), global_board ,win_condition))
         return evaluateTotalScore(state, opponent(my_symbol), global_board ,win_condition)
