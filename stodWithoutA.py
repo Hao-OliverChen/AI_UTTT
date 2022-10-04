@@ -59,6 +59,7 @@ def main():
     
    # basic game loop
     while True:
+        
         # if end_game exist break the loop
         end_game_exists = exists("end_game")
         if end_game_exists:
@@ -185,10 +186,14 @@ def main():
         myMove = global_to_local(myMove)
         myName = "stodWithoutA"
         final_move = myName + " " + str(myMove[0]) + " " + str(myMove[1])
-        move_file = open("move_file","w")
-        move_file.write(final_move)
-        move_file.close()
-        sleep(1)
+        # using 'r+' to avoid timestamp modification at the beginning 
+        file = open('move_file', 'r+')
+        file.seek(0)
+        file.write(final_move)
+        file.truncate()
+        file.close()
+        # To avoid chaos in communication, wait 0.1 second before heading to the next game loop
+        sleep(0.1)
 
     # ends program when end_game is found
     print("File 'end_game' is found! Game is over!")
