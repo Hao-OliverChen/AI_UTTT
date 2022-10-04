@@ -193,7 +193,7 @@ def main():
         file.truncate()
         file.close()
         # To avoid chaos in communication, wait 0.1 second before heading to the next game loop
-        sleep(0.1)
+        sleep(0.3)
 
     # ends program when end_game is found
     print("File 'end_game' is found! Game is over!")
@@ -294,7 +294,7 @@ def findValidMoves(state, symbol, last_move, global_board):
 # evaluate the overall player score
 def evaluateTotalScore(state, symbol, global_board, win_condition):
     score = 0
-    score += evaluateUtilityScorePerBoard(global_board, symbol, win_condition) * 200
+    score += evaluateUtilityScorePerBoard(global_board, symbol, win_condition) * 600
     for slot in range(9):
         idxs = indices_of_board(slot)
         board = state[idxs[0]: idxs[-1]+1]
@@ -317,13 +317,13 @@ def evaluateUtilityScorePerBoard(board, symbol, win_condition):
         current = Counter([board[x], board[y], board[z]])
 
         if current == three:
-            score += 100
+            score += 250
         elif current == two:
             score += 50
         elif current == one:
             score += 3
         elif current == three_opponent:
-            score -= 100
+            score -= 250
             return score
         elif current == two_opponent:
             score -= 50

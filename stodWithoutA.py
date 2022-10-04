@@ -193,7 +193,7 @@ def main():
         file.truncate()
         file.close()
         # To avoid chaos in communication, wait 0.1 second before heading to the next game loop
-        sleep(0.1)
+        sleep(0.3)
 
     # ends program when end_game is found
     print("File 'end_game' is found! Game is over!")
