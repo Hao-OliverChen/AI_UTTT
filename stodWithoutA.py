@@ -304,30 +304,31 @@ def evaluateTotalScore(state, symbol, global_board, win_condition):
 # evaluate function for each board
 def evaluateUtilityScorePerBoard(board, symbol, win_condition):
     score = 0
-    three = Counter(symbol * 3)
-    two = Counter(symbol * 2 + "*")
-    one = Counter(symbol * 1 + "*" * 2)
-    three_opponent = Counter(opponent(symbol) * 3)
-    two_opponent = Counter(opponent(symbol) * 2 + "*")
-    one_opponent = Counter(opponent(symbol) * 1 + "*" * 2)
+    three_in_a_row = Counter(symbol * 3)
+    two_in_a_row = Counter(symbol * 2 + "*")
+    one_in_a_row = Counter(symbol * 1 + "*" * 2)
+    three_in_a_row_opponent = Counter(opponent(symbol) * 3)
+    two_in_a_row_opponent = Counter(opponent(symbol) * 2 + "*")
+    one_in_a_row_opponent = Counter(opponent(symbol) * 1 + "*" * 2)
 
     # check each win condition and grant a score 
     for idxs in win_condition:
-        (x, y, z) = idxs
-        current = Counter([board[x], board[y], board[z]])
+        (a, b, c) = idxs
+        current = Counter([board[a], board[b], board[c]])
 
-        if current == three:
-            score += 100
-        elif current == two:
-            score += 10
-        elif current == one:
-            score += 1
-        elif current == three_opponent:
+        if current == three_in_a_row:
+            score += 150
+        elif current == two_in_a_row:
+            score += 30
+        elif current == one_in_a_row:
+            score += 2
+        elif current == three_in_a_row_opponent:
             score -= 100
+            # if opponent got three in a row, return immediately
             return score
-        elif current == two_opponent:
+        elif current == two_in_a_row_opponent:
             score -= 10
-        elif current == one_opponent:
+        elif current == one_in_a_row_opponent:
             score -= 1
 
     return score
@@ -356,7 +357,6 @@ def update_global_board(state, win_condition):
         temp_global_board[slot] = check_board_winner(board, win_condition)
     return temp_global_board
     
-
 # convert local board to global board
 def global_to_local(global_num):
     board_num = int(np.floor(global_num/9))
